@@ -69,21 +69,21 @@ I tried to use a subset of data to measure the performance of the classifier for
 * Histogram bins: 32
 * Classifier: Linear SVC
 
-It should be noticed that data was standardized (mean zero with standard deviation of 1) by using `sklearn.StandarScaler()` in cell 12. I also spliced the data to training (80%) and test (20%) sets in cell 11 to validate the model that gives the accuracy of 99.16%  
+It should be noticed that data was standardized (mean zero with standard deviation of 1) by using `sklearn.StandarScaler()` in cell 7 (and also 5). I also spliced the data to training (80%) and test (20%) sets in cell 6 to validate the model that gives the accuracy of 99.16%  
 
 #### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
-Initially multiple windows were defined and then feature extraction was done for each of the windows in each image to see if any car is in them. This part can be found on cells 15 and 16. The hyper parameter over lap (`xy_overlap`) and scaler (`scaler `) were chosen try an error. Also, the rest of the parameters were chosen based on fitting different combination on cell 10.
+Initially multiple windows were defined and then feature extraction was done for each of the windows in each image to see if any car is in them. This part can be found on cells 12 and 14. The hyper parameter over lap (`xy_overlap`) and scaler (`scaler `) were chosen try an error. Also, the rest of the parameters were chosen based on fitting different combination on cell 5.
 
 ### Sliding Window Search
 
 #### 1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
-Initially multiple windows were defined and then feature extraction was done for each of the windows in each image to see if any car is in them. This part can be found on cells 15 and 16. The hyper parameter over lap (`xy_overlap`) and scaler (`scaler `) were chosen try an error. Here is the results, using the test images:
+Initially multiple windows were defined and then feature extraction was done for each of the windows in each image to see if any car is in them. This part can be found on cells 16 through and 18. The hyper parameter over lap (`xy_overlap`) and scaler (`scaler `) were chosen try an error. Here is the results, using the test images:
 
 ![alt text][image3]
 
-Later for combining the results of multiple boxes in an image, reduce false positives, a heat map was implemented with a threshold  and the function `label()` from `scipy.ndimage.measurements` was used to find where the cars we (cell 20). with step by step process:
+Later for combining the results of multiple boxes in an image, reduce false positives, a heat map was implemented with a threshold  and the function `label()` from `scipy.ndimage.measurements` was used to find where the cars we (cells 18 and 19). with step by step process:
 
 
 And this images shows the final results:
@@ -92,7 +92,7 @@ And this images shows the final results:
 
 #### 2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
-Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  To make the HOG faster; a HOG sub-sampling was implemented as suggested on Udacity's lectures. The implementation of this method could be found on In cells 21 through 24. Image below show the initial results:
+Ultimately I searched on two scales using YCrCb 3-channel HOG features plus spatially binned color and histograms of color in the feature vector, which provided a nice result.  To make the HOG faster; a HOG sub-sampling was implemented as suggested on Udacity's lectures. The implementation of this method could be found on In cells 16 through 19. Image below show the initial results:
 
 ![alt text][image5]
 
@@ -114,9 +114,7 @@ Here's a [link to my video result](./project_video.mp4)
 
 #### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
-I recorded the positions of positive detections in each frame of the video.  From the positive detections I created a heatmap and then thresholded that map to identify vehicle positions.  I then used `scipy.ndimage.measurements.label()` to identify individual blobs in the heatmap.  I then assumed each blob corresponded to a vehicle.  I constructed bounding boxes to cover the area of each blob detected.  
-
-Here's an example result showing the heatmap from a series of frames of video, the result of `scipy.ndimage.measurements.label()` and the bounding boxes then overlaid on the last frame of video:
+The positions of detected cars in each frame of the video were recorded.  From the positive detections a heatmap was created and then thresholded that map to identify vehicle positions.  Then the `scipy.ndimage.measurements.label()` was used to identify individual blobs in the heatmap, which each blobs considered as a vehicle. Next a bounding boxes was constructed to cover the area of each blob detected.  
 
 ---
 
